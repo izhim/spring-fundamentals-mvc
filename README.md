@@ -255,6 +255,83 @@ return users;
 ---
 
 
+# 🧩 Path Variables & Environment — `PathVariableController`
+
+Demonstrates the use of **`@PathVariable`**, **`@Value`**, **SpEL**, and **Environment** for configuration-driven API endpoints.
+
+### `/api/var/baz/{message}`
+Returns a message from the URL path.
+```java
+@GetMapping("/baz/{message}")
+public ParamDto baz(@PathVariable String message) {
+  ParamDto param = new ParamDto();
+  param.setMessage(message);
+  return param;
+}
+```
+
+### `/api/var/mix/{product}/{code}`
+Returns multiple path variables in a JSON map.
+```java
+@GetMapping("/mix/{product}/{code}")
+public Map<String, Object> mix(@PathVariable String product, @PathVariable Long code) {
+  Map<String, Object> json = new HashMap<>();
+  json.put("product", product);
+  json.put("code", code);
+  return json;
+}
+```
+
+### `/api/var/create` (POST)
+Receives a `User` object, modifies it, and returns it.
+```java
+@PostMapping("/create")
+public User create(@RequestBody User user) {
+  user.setName(user.getName().toUpperCase());
+  user.setLastname(user.getLastname().toUpperCase());
+  return user;
+}
+```
+
+### `/api/var/values`
+Returns configuration values from `@Value`, SpEL, and `Environment`.
+```java
+@GetMapping("/values")
+public Map<String, Object> values() {
+  Map<String, Object> json = new HashMap<>();
+  json.put("username", username);
+  json.put("message", message);
+  json.put("listOfValues", listOfValues);
+  json.put("code", code);
+  json.put("valueList", valueList);
+  json.put("valueString", valueString);
+  json.put("valuesMap", valuesMap);
+  json.put("product", product);
+  json.put("message2", environment.getProperty("config.message"));
+  json.put("code2", environment.getProperty("config.code", Integer.class));
+  return json;
+}
+```
+
+### 🔍 Key Concepts
+- **`@PathVariable`** → Extracts values from URL paths.  
+- **`@Value`** → Injects properties from application configuration.  
+- **SpEL (`#{...}`)** → Enables expressions like lists, maps, or transformations.  
+- **`Environment`** → Accesses configuration programmatically.  
+
+## ✅ Summary
+- Combines **path variables** and **config-driven values** for flexible endpoints.  
+- Demonstrates **JSON mapping**, POST handling, and environment-based configuration.  
+
+📁 **Example Endpoints**
+- `/api/var/baz/hello` → Returns message `"hello"`.  
+- `/api/var/mix/productA/12345` → Returns `{"product":"productA","code":12345}`.  
+- `/api/var/create` → Accepts a `User` object and returns the modified user.  
+- `/api/var/values` → Returns all injected configuration values.  
+
+---
+
+
 # 🧩 Request Parameters — RequestParamController
 
 
