@@ -33,5 +33,11 @@
             </tbody>
         </table>
     </div>
+    <div>
+        <a th:href="@{/list}">Show the list</a><br>
+        <a th:href="@{'api/params/foo?message=' + ${title}}">Show message</a><br>
+        <a th:href="@{/api/params/foo(message='this is the second message')}">Show second message</a><br>
+        <a th:href="@{/api/params/bar(text='this is a text', code=12345)}">Show text and code</a><br>
+    </div>
 </body>
 </html>

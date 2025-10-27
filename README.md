@@ -73,6 +73,25 @@ public List<User> usersModel() {
 - **Return value** → The view name (without `.html`) under `/templates/`.
 
 
+## 🏠 Home Controller — Redirect Example
+
+This controller redirects incoming requests (`/`, `/home`, or empty path) to the `/list` route.  
+Demonstrates the difference between **redirect** (new request, updates URL) and **forward** (same request, keeps parameters).
+
+```java
+@Controller
+public class HomeController {
+
+    /* REDIRECT TO LIST REFRESHING DATA */
+    @GetMapping({"", "/", "/home"})
+    public String home() {
+        return "redirect:/list";    // changes the URL path and refreshes
+        // return "forward:/list";  -> keeps the same HTTP request
+    }
+}
+```
+
+
 ## 🧠 Thymeleaf Basics
 
 
@@ -82,7 +101,12 @@ Model attributes are accessed using `${}`.
 
 ```html
 <h1 th:text="${title}"></h1>
-<p th:text="${user.name}"></p>
+<ul>
+  <li th:text="${user.name}"></li>
+  <li th:text="${user.lastname}"></li>
+  <li th:if="${user.email}" th:text="${user.email}"></li>
+  <li th:if="${user.email == null}" th:text="${'no tiene email'}"></li>
+</ul>
 ```
 
 
@@ -91,10 +115,21 @@ Loop over lists using `th:each`.
 
 
 ```html
-<tr th:each="user : ${users}">
-<td th:text="${user.name}"></td>
-<td th:text="${user.lastname}"></td>
-</tr>
+<div th:if="${users.size()!=0}">
+  <table>
+    <thead>
+      <tr><th>name</th><th>lastname</th><th>email</th></tr>
+    </thead>
+    <tbody>
+      <tr th:each="user : ${users}">
+        <td th:text="${user.name}"></td>
+        <td th:text="${user.lastname}"></td>
+        <td th:if="${user.email == null}" th:text="${'No email'}"></td>
+        <td th:if="${user.email != null}" th:text="${user.email}"></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 ```
 
 
@@ -108,6 +143,17 @@ Use `th:if` and `th:unless`.
 ```
 
 
+## 🔗 Dynamic Links
+Demonstrates dynamic URL generation and passing query parameters.
+```html
+<div>
+  <a th:href="@{/list}">Show the list</a><br>
+  <a th:href="@{'api/params/foo?message=' + ${title}}">Show message</a><br>
+  <a th:href="@{/api/params/foo(message='this is the second message')}">Show second message</a><br>
+  <a th:href="@{/api/params/bar(text='this is a text', code=12345)}">Show text and code</a><br>
+</div>
+```
+
 ### 🧩 Common Attributes
 | Attribute | Description |
 |------------|--------------|
@@ -120,6 +166,7 @@ Use `th:if` and `th:unless`.
 
 ## ✅ Summary
 - The **controller** passes data to Thymeleaf views using `Model`.
+- **HomeController** demonstrates redirect and forward behaviors for navigation. 
 - Views access and display this data dynamically.
 - Handles lists, conditions, and dynamic content without JavaScript.
 
