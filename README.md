@@ -193,11 +193,11 @@ Handles GET requests to '/api/details'. Creates a single User object, wraps it i
 ```java
 @GetMapping(path = "/details")
 public UserDto details() {
-User user = new User("Jose", "Carrillo");
-UserDto userDto = new UserDto();
-userDto.setUser(user);
-userDto.setTitle("Hola Mundo Cruel");
-return userDto;
+  User user = new User("Jose", "Carrillo");
+  UserDto userDto = new UserDto();
+  userDto.setUser(user);
+  userDto.setTitle("Hola Mundo Cruel");
+  return userDto;
 }
 ```
 
@@ -207,11 +207,11 @@ Handles GET requests to '/api/details-map'. Creates a User object and returns it
 ```java
 @GetMapping(path = "/details-map")
 public Map<String, Object> detailsMap() {
-User user = new User("Jose", "Carrillo");
-Map<String, Object> body = new HashMap<>();
-body.put("title", "Hola Mundo Cruel");
-body.put("user", user);
-return body;
+  User user = new User("Jose", "Carrillo");
+  Map<String, Object> body = new HashMap<>();
+  body.put("title", "Hola Mundo Cruel");
+  body.put("user", user);
+  return body;
 }
 ```
 
@@ -221,13 +221,11 @@ Handles GET requests to '/api/list'. Returns a list of User objects as JSON.
 ```java
 @GetMapping("/list")
 public List<User> list() {
-User user1 = new User("Jose", "Carrillo");
-User user2 = new User("Manolo", "Jimenez");
-User user3 = new User("Maria", "Cabello");
-
-
-List<User> users = Arrays.asList(user1, user2, user3);
-return users;
+  User user1 = new User("Jose", "Carrillo");
+  User user2 = new User("Manolo", "Jimenez");
+  User user3 = new User("Maria", "Cabello");
+  List<User> users = Arrays.asList(user1, user2, user3);
+  return users;
 }
 ```
 
@@ -346,9 +344,9 @@ Handles GET requests to '/api/params/foo'. Accepts an optional `message` paramet
 ```java
 @GetMapping("/foo")
 public ParamDto foo(@RequestParam(required = false, defaultValue = "mensaje por defecto") String message) {
-ParamDto param = new ParamDto();
-param.setMessage(message);
-return param;
+  ParamDto param = new ParamDto();
+  param.setMessage(message);
+  return param;
 }
 ```
 
@@ -358,10 +356,10 @@ Handles GET requests to '/api/params/bar'. Accepts multiple parameters (`text` a
 ```java
 @GetMapping("/bar")
 public ParamDto bar(@RequestParam String text, @RequestParam Integer code) {
-ParamDto params = new ParamDto();
-params.setMessage(text);
-params.setCode(code);
-return params;
+  ParamDto params = new ParamDto();
+  params.setMessage(text);
+  params.setCode(code);
+  return params;
 }
 ```
 
@@ -371,10 +369,10 @@ Handles GET requests to '/api/params/request'. Retrieves parameters directly fro
 ```java
 @GetMapping("/request")
 public ParamDto request(HttpServletRequest request) {
-ParamDto param = new ParamDto();
-param.setCode(Integer.parseInt(request.getParameter("code")));
-param.setMessage(request.getParameter("message"));
-return param;
+  ParamDto param = new ParamDto();
+  param.setCode(Integer.parseInt(request.getParameter("code")));
+  param.setMessage(request.getParameter("message"));
+  return param;
 }
 ```
 
